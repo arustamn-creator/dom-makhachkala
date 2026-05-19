@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Всё для дома — Махачкала</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --card: #161b26;
+    --card2: #1e2535;
+    --accent: #f5a623;
+    --accent2: #e8891a;
+    --teal: #2dd4bf;
+    --red: #ff5e5e;
+    --text: #f0f4ff;
+    --muted: #8899bb;
+    --border: rgba(255,255,255,0.07);
+    --radius: 18px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #1a2240 0%, #0d1525 100%);
+    padding: 20px 16px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(245,166,35,0.15) 0%, transparent 70%);
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; z-index: 1;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; box-shadow: 0 4px 16px rgba(245,166,35,0.4);
+  }
+  .logo-text { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 700; line-height: 1.3; }
+  .logo-text span { color: var(--accent); display: block; font-size: 10px; font-weight: 400; color: var(--muted); }
+  .header-badge {
+    background: rgba(45,212,191,0.15); color: var(--teal);
+    border: 1px solid rgba(45,212,191,0.3);
+    padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  }
+  .hero-text {
+    position: relative; z-index: 1; margin-top: 20px;
+  }
+  .hero-text h1 {
+    font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 800;
+    line-height: 1.25; letter-spacing: -0.5px;
+  }
+  .hero-text h1 span { color: var(--accent); }
+  .hero-text p { margin-top: 8px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── SEARCH ── */
+  .search-wrap { padding: 16px; position: relative; }
+  .search-box {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 14px; display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; transition: border-color .2s;
+  }
+  .search-box:focus-within { border-color: rgba(245,166,35,0.5); }
+  .search-box input {
+    background: none; border: none; outline: none; color: var(--text);
+    font-family: 'Nunito', sans-serif; font-size: 14px; flex: 1;
+  }
+  .search-box input::placeholder { color: var(--muted); }
+  .search-icon { font-size: 18px; color: var(--muted); }
+  .search-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; color: #000; font-family: 'Unbounded', sans-serif;
+    font-size: 11px; font-weight: 700; padding: 8px 14px;
+    border-radius: 10px; cursor: pointer; white-space: nowrap;
+  }
+
+  /* ── SECTION ── */
+  .section { padding: 4px 0 20px; }
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Unbounded', sans-serif; font-size: 14px; font-weight: 700;
+  }
+  .section-link { font-size: 12px; color: var(--accent); font-weight: 600; cursor: pointer; }
+
+  /* ── CATEGORIES SCROLL ── */
+  .cats-scroll {
+    display: flex; gap: 10px; padding: 4px 16px 8px; overflow-x: auto;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .cats-scroll::-webkit-scrollbar { display: none; }
+  .cat-pill {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 16px; padding: 12px 14px; cursor: pointer;
+    min-width: 72px; transition: all .2s; flex-shrink: 0;
+  }
+  .cat-pill.active, .cat-pill:active {
+    background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.5);
+  }
+  .cat-pill .icon { font-size: 24px; }
+  .cat-pill .label { font-size: 10px; font-weight: 600; color: var(--muted); text-align: center; line-height: 1.2; }
+  .cat-pill.active .label { color: var(--accent); }
+
+  /* ── MASTERS GRID ── */
+  .masters-list { display: flex; flex-direction: column; gap: 12px; padding: 0 16px; }
+  .master-card {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: var(--radius); padding: 14px; display: flex; gap: 12px;
+    cursor: pointer; transition: all .2s; position: relative; overflow: hidden;
+  }
+  .master-card:active { transform: scale(0.98); border-color: rgba(245,166,35,0.4); }
+  .master-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0; transition: opacity .2s;
+  }
+  .master-card:active::before { opacity: 1; }
+  .master-avatar {
+    width: 54px; height: 54px; border-radius: 14px;
+    background: linear-gradient(135deg, #2a3550, #1e2a40);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; flex-shrink: 0; position: relative;
+  }
+  .master-badge {
+    position: absolute; bottom: -4px; right: -4px;
+    background: var(--teal); color: #000; font-size: 9px; font-weight: 800;
+    padding: 2px 5px; border-radius: 6px; letter-spacing: 0.3px;
+  }
+  .master-info { flex: 1; min-width: 0; }
+  .master-name { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 700; }
+  .master-spec { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .master-meta { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+  .meta-tag {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 11px; color: var(--muted); font-weight: 600;
+  }
+  .meta-tag.stars { color: var(--accent); }
+  .meta-tag.free { color: var(--teal); }
+  .master-price {
+    text-align: right; flex-shrink: 0;
+  }
+  .price-val { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); }
+  .price-unit { font-size: 10px; color: var(--muted); }
+  .call-btn {
+    margin-top: 6px; background: rgba(245,166,35,0.12);
+    color: var(--accent); border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 8px; padding: 5px 10px; font-size: 11px; font-weight: 700;
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+  }
+  .call-btn:active { background: rgba(245,166,35,0.25); }
+
+  /* ── MATERIALS GRID ── */
+  .materials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px; }
+  .mat-card {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 16px; padding: 14px; cursor: pointer; transition: all .2s;
+  }
+  .mat-card:active { border-color: rgba(245,166,35,0.4); transform: scale(0.97); }
+  .mat-icon { font-size: 30px; margin-bottom: 8px; }
+  .mat-name { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; line-height: 1.3; }
+  .mat-count { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .mat-arrow { color: var(--accent); font-size: 16px; float: right; margin-top: -20px; }
+
+  /* ── PROMO BANNER ── */
+  .promo-banner {
+    margin: 0 16px; padding: 16px;
+    background: linear-gradient(135deg, rgba(45,212,191,0.15), rgba(45,212,191,0.05));
+    border: 1px solid rgba(45,212,191,0.25); border-radius: var(--radius);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .promo-icon { font-size: 36px; }
+  .promo-text h3 { font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 700; color: var(--teal); }
+  .promo-text p { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .promo-btn {
+    margin-left: auto; flex-shrink: 0;
+    background: var(--teal); color: #000; border: none;
+    border-radius: 10px; padding: 8px 14px; font-size: 11px; font-weight: 800;
+    cursor: pointer; font-family: 'Unbounded', sans-serif;
+  }
+
+  /* ── TABS BAR ── */
+  .tab-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(13,15,20,0.95); backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border); display: flex;
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  }
+  .tab-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    cursor: pointer; padding: 6px 0; transition: all .2s;
+  }
+  .tab-icon { font-size: 20px; }
+  .tab-label { font-size: 10px; font-weight: 600; color: var(--muted); }
+  .tab-item.active .tab-label { color: var(--accent); }
+  .tab-item.active .tab-icon { filter: drop-shadow(0 0 6px rgba(245,166,35,0.6)); }
+
+  /* ── BOTTOM SPACE ── */
+  .bottom-pad { height: 80px; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--card2); border: 1px solid var(--border);
+    padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 600;
+    opacity: 0; transition: all .3s; pointer-events: none; white-space: nowrap;
+    box-shadow: var(--shadow); z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── PAGE VIEWS ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── PROFILE/ORDER FORMS ── */
+  .form-section { padding: 16px; }
+  .form-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+  }
+  .form-label { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .form-input {
+    width: 100%; background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 11px 14px; color: var(--text);
+    font-family: 'Nunito', sans-serif; font-size: 14px; outline: none;
+    transition: border-color .2s;
+  }
+  .form-input:focus { border-color: rgba(245,166,35,0.5); }
+  .form-input::placeholder { color: var(--muted); }
+  textarea.form-input { resize: none; height: 90px; }
+  .big-btn {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000; border: none; border-radius: 14px;
+    font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; margin-top: 8px; transition: transform .15s;
+  }
+  .big-btn:active { transform: scale(0.98); }
+  .stat-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .stat-box {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px; text-align: center;
+  }
+  .stat-num { font-family: 'Unbounded', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent); }
+  .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .order-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px; margin-bottom: 10px; display: flex; gap: 12px;
+  }
+  .order-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); margin-top: 4px; flex-shrink: 0; }
+  .order-dot.pending { background: var(--accent); }
+  .order-title { font-size: 13px; font-weight: 700; }
+  .order-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">
+      <div class="logo-icon">🏠</div>
+      <div class="logo-text">
+        Всё для дома
+        <span>📍 Махачкала</span>
+      </div>
+    </div>
+    <div class="header-badge">✅ Онлайн</div>
+  </div>
+  <div class="hero-text">
+    <h1>Мастера и стройматериалы<br><span>у вас дома</span></h1>
+    <p>500+ мастеров · 120+ магазинов · Быстро и надёжно</p>
+  </div>
+</div>
+
+<!-- ========= PAGE: ГЛАВНАЯ ========= -->
+<div id="page-home" class="page active">
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Найти мастера или материал..." oninput="handleSearch(this.value)">
+      <button class="search-btn" onclick="doSearch()">Найти</button>
+    </div>
+  </div>
+
+  <!-- КАТЕГОРИИ МАСТЕРОВ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">🔧 Мастера</div>
+      <div class="section-link" onclick="showPage('masters')">Все →</div>
+    </div>
+    <div class="cats-scroll" id="mastCats">
+      <div class="cat-pill active" onclick="filterMasters('all', this)"><div class="icon">👷</div><div class="label">Все</div></div>
+      <div class="cat-pill" onclick="filterMasters('plumber', this)"><div class="icon">🚿</div><div class="label">Сантех-ника</div></div>
+      <div class="cat-pill" onclick="filterMasters('electric', this)"><div class="icon">⚡</div><div class="label">Электрик</div></div>
+      <div class="cat-pill" onclick="filterMasters('repair', this)"><div class="icon">🔨</div><div class="label">Ремонт</div></div>
+      <div class="cat-pill" onclick="filterMasters('tile', this)"><div class="icon">🟫</div><div class="label">Плиточник</div></div>
+      <div class="cat-pill" onclick="filterMasters('paint', this)"><div class="icon">🎨</div><div class="label">Маляр</div></div>
+      <div class="cat-pill" onclick="filterMasters('weld', this)"><div class="icon">🔩</div><div class="label">Сварщик</div></div>
+      <div class="cat-pill" onclick="filterMasters('door', this)"><div class="icon">🚪</div><div class="label">Двери/Окна</div></div>
+      <div class="cat-pill" onclick="filterMasters('clean', this)"><div class="icon">🧹</div><div class="label">Уборка</div></div>
+    </div>
+  </div>
+
+  <!-- СПИСОК МАСТЕРОВ -->
+  <div class="masters-list" id="mastersList"></div>
+
+  <div style="height:16px"></div>
+
+  <!-- PROMO -->
+  <div class="promo-banner">
+    <div class="promo-icon">🎁</div>
+    <div class="promo-text">
+      <h3>Стань мастером!</h3>
+      <p>Зарегистрируйся и получай заказы каждый день</p>
+    </div>
+    <button class="promo-btn" onclick="showPage('register')">Вступить</button>
+  </div>
+
+  <div style="height:16px"></div>
+
+  <!-- СТРОЙМАТЕРИАЛЫ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">🏗 Стройматериалы</div>
+      <div class="section-link" onclick="showPage('materials')">Все →</div>
+    </div>
+    <div class="materials-grid">
+      <div class="mat-card" onclick="showToast('🧱 Открываем раздел «Кирпич и блоки»...')">
+        <div class="mat-icon">🧱</div>
+        <div class="mat-arrow">›</div>
+        <div class="mat-name">Кирпич и блоки</div>
+        <div class="mat-count">34 магазина</div>
+      </div>
+      <div class="mat-card" onclick="showToast('🪟 Открываем «Двери и окна»...')">
+        <div class="mat-icon">🪟</div>
+        <div class="mat-arrow">›</div>
+        <div class="mat-name">Двери и окна</div>
+        <div class="mat-count">28 магазина</div>
+      </div>
+      <div class="mat-card" onclick="showToast('🚿 Открываем «Сантехника»...')">
+        <div class="mat-icon">🚿</div>
+        <div class="mat-arrow">›</div>
+        <div class="mat-name">Сантехника</div>
+        <div class="mat-count">19 магазинов</div>
+      </div>
+      <div class="mat-card" onclick="showToast('💡 Открываем «Электрика»...')">
+        <div class="mat-icon">💡</div>
+        <div class="mat-arrow">›</div>
+        <div class="mat-name">Электрика</div>
+        <div class="mat-count">22 магазина</div>
+      </div>
+      <div class="mat-card" onclick="showToast('🪣 Открываем «Краски и штукатурка»...')">
+        <div class="mat-icon">🪣</div>
+        <div class="mat-arrow">›</div>
+        <div class="mat-name">Краски / Штукатурка</div>
+        <div class="mat-count">15 магазинов</div>
+      </div>
+      <div class="mat-card" onclick="showToast('🪵 Открываем «Дерево и ламинат»...')">
+        <div class="mat-icon">🪵</div>
+        <div class="mat-arrow">›</div>
+        <div class="mat-name">Дерево и ламинат</div>
+        <div class="mat-count">12 магазинов</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-pad"></div>
+</div>
+
+<!-- ========= PAGE: МАСТЕРА ========= -->
+<div id="page-masters" class="page">
+  <div style="padding:16px 16px 8px; display:flex; align-items:center; gap:10px">
+    <span onclick="showPage('home')" style="cursor:pointer; font-size:20px">←</span>
+    <span style="font-family:'Unbounded',sans-serif; font-size:15px; font-weight:700">Все мастера</span>
+  </div>
+  <div class="masters-list" id="allMastersList" style="padding-bottom:80px"></div>
+</div>
+
+<!-- ========= PAGE: МАТЕРИАЛЫ ========= -->
+<div id="page-materials" class="page">
+  <div style="padding:16px 16px 8px; display:flex; align-items:center; gap:10px">
+    <span onclick="showPage('home')" style="cursor:pointer; font-size:20px">←</span>
+    <span style="font-family:'Unbounded',sans-serif; font-size:15px; font-weight:700">Стройматериалы</span>
+  </div>
+  <div class="materials-grid" style="padding-bottom:80px; padding:0 16px">
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🧱</div><div class="mat-arrow">›</div><div class="mat-name">Кирпич и блоки</div><div class="mat-count">34 магазина</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🪟</div><div class="mat-arrow">›</div><div class="mat-name">Двери и окна</div><div class="mat-count">28 магазинов</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🚿</div><div class="mat-arrow">›</div><div class="mat-name">Сантехника</div><div class="mat-count">19 магазинов</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">💡</div><div class="mat-arrow">›</div><div class="mat-name">Электрика</div><div class="mat-count">22 магазина</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🪣</div><div class="mat-arrow">›</div><div class="mat-name">Краски / Штукатурка</div><div class="mat-count">15 магазинов</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🪵</div><div class="mat-arrow">›</div><div class="mat-name">Дерево / Ламинат</div><div class="mat-count">12 магазинов</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🔩</div><div class="mat-arrow">›</div><div class="mat-name">Метизы / Крепёж</div><div class="mat-count">9 магазинов</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🏠</div><div class="mat-arrow">›</div><div class="mat-name">Кровля и утепление</div><div class="mat-count">11 магазинов</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🚽</div><div class="mat-arrow">›</div><div class="mat-name">Керамическая плитка</div><div class="mat-count">17 магазинов</div></div>
+    <div class="mat-card" onclick="showToast('Откроется каталог магазина')"><div class="mat-icon">🛁</div><div class="mat-arrow">›</div><div class="mat-name">Ванны и душ</div><div class="mat-count">8 магазинов</div></div>
+  </div>
+  <div class="bottom-pad"></div>
+</div>
+
+<!-- ========= PAGE: ЗАЯВКА ========= -->
+<div id="page-order" class="page">
+  <div style="padding:16px 16px 8px; display:flex; align-items:center; gap:10px">
+    <span onclick="showPage('home')" style="cursor:pointer; font-size:20px">←</span>
+    <span style="font-family:'Unbounded',sans-serif; font-size:15px; font-weight:700">Оставить заявку</span>
+  </div>
+  <div class="form-section">
+    <div class="form-card">
+      <div class="form-label">Тип работы</div>
+      <input class="form-input" placeholder="Например: ремонт сантехники" style="margin-bottom:12px">
+      <div class="form-label">Адрес</div>
+      <input class="form-input" placeholder="Ул. Ленина, 10, кв. 5" style="margin-bottom:12px">
+      <div class="form-label">Описание проблемы</div>
+      <textarea class="form-input" placeholder="Опишите подробнее что нужно сделать..."></textarea>
+    </div>
+    <div class="form-card">
+      <div class="form-label">Ваше имя</div>
+      <input class="form-input" placeholder="Магомед" style="margin-bottom:12px">
+      <div class="form-label">Телефон</div>
+      <input class="form-input" placeholder="+7 (928) 000-00-00" type="tel">
+    </div>
+    <button class="big-btn" onclick="submitOrder()">📨 Отправить заявку</button>
+  </div>
+  <div class="bottom-pad"></div>
+</div>
+
+<!-- ========= PAGE: МОИ ЗАКАЗЫ ========= -->
+<div id="page-myorders" class="page">
+  <div style="padding:16px 16px 8px; display:flex; align-items:center; gap:10px">
+    <span style="font-family:'Unbounded',sans-serif; font-size:15px; font-weight:700">📋 Мои заказы</span>
+  </div>
+  <div class="form-section">
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-lbl">Всего</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:var(--teal)">1</div><div class="stat-lbl">В работе</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:#8899bb">2</div><div class="stat-lbl">Завершено</div></div>
+    </div>
+    <div class="order-item">
+      <div class="order-dot"></div>
+      <div>
+        <div class="order-title">🔧 Замена труб на кухне</div>
+        <div class="order-sub">Мастер: Расул К. · Сегодня в 14:00</div>
+        <div style="margin-top:6px; font-size:11px; color:var(--teal); font-weight:600">✅ В работе</div>
+      </div>
+    </div>
+    <div class="order-item">
+      <div class="order-dot pending"></div>
+      <div>
+        <div class="order-title">⚡ Подключить розетки</div>
+        <div class="order-sub">Ждём мастера · Завтра</div>
+        <div style="margin-top:6px; font-size:11px; color:var(--accent); font-weight:600">⏳ Ожидание</div>
+      </div>
+    </div>
+    <div class="order-item" style="opacity:0.6">
+      <div class="order-dot" style="background:#444"></div>
+      <div>
+        <div class="order-title">🎨 Покраска потолка</div>
+        <div class="order-sub">Мастер: Алибек · 12 мая</div>
+        <div style="margin-top:6px; font-size:11px; color:#555; font-weight:600">✔ Завершено</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-pad"></div>
+</div>
+
+<!-- ========= PAGE: РЕГИСТРАЦИЯ МАСТЕРА ========= -->
+<div id="page-register" class="page">
+  <div style="padding:16px 16px 8px; display:flex; align-items:center; gap:10px">
+    <span onclick="showPage('home')" style="cursor:pointer; font-size:20px">←</span>
+    <span style="font-family:'Unbounded',sans-serif; font-size:15px; font-weight:700">👷 Стать мастером</span>
+  </div>
+  <div class="form-section">
+    <div class="form-card" style="background:rgba(45,212,191,0.06); border-color:rgba(45,212,191,0.2)">
+      <div style="font-size:13px; color:var(--teal); font-weight:700">💡 Почему стоит зарегистрироваться?</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:6px; line-height:1.6">
+        ✅ Бесплатная регистрация<br>
+        ✅ Клиенты со всей Махачкалы<br>
+        ✅ Гарантированные заказы каждый день<br>
+        ✅ Рейтинговая система доверия
+      </div>
+    </div>
+    <div class="form-card">
+      <div class="form-label">Ваше имя</div>
+      <input class="form-input" placeholder="Магомед Алиев" style="margin-bottom:12px">
+      <div class="form-label">Специальность</div>
+      <input class="form-input" placeholder="Электрик, сантехник..." style="margin-bottom:12px">
+      <div class="form-label">Телефон</div>
+      <input class="form-input" placeholder="+7 (928) 000-00-00" type="tel" style="margin-bottom:12px">
+      <div class="form-label">Опыт работы</div>
+      <input class="form-input" placeholder="5 лет">
+    </div>
+    <button class="big-btn" onclick="registerMaster()">🚀 Зарегистрироваться</button>
+  </div>
+  <div class="bottom-pad"></div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <div class="tab-item active" id="tab-home" onclick="showPage('home')">
+    <div class="tab-icon">🏠</div>
+    <div class="tab-label">Главная</div>
+  </div>
+  <div class="tab-item" id="tab-masters" onclick="showPage('masters')">
+    <div class="tab-icon">👷</div>
+    <div class="tab-label">Мастера</div>
+  </div>
+  <div class="tab-item" id="tab-order" onclick="showPage('order')">
+    <div class="tab-icon">➕</div>
+    <div class="tab-label">Заявка</div>
+  </div>
+  <div class="tab-item" id="tab-myorders" onclick="showPage('myorders')">
+    <div class="tab-icon">📋</div>
+    <div class="tab-label">Заказы</div>
+  </div>
+  <div class="tab-item" id="tab-register" onclick="showPage('register')">
+    <div class="tab-icon">👤</div>
+    <div class="tab-label">Мастеру</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const masters = [
+  { id:1, name:'Расул Камалов',  spec:'Сантехник',  cat:'plumber', emoji:'🚿', stars:'4.9', jobs:'87',  price:'от 500₽/час', free:true },
+  { id:2, name:'Алибек Магомедов', spec:'Электрик', cat:'electric', emoji:'⚡', stars:'4.8', jobs:'124', price:'от 600₽/час', free:false },
+  { id:3, name:'Ислам Гаджиев',  spec:'Маляр-штукатур', cat:'paint', emoji:'🎨', stars:'4.7', jobs:'53', price:'от 400₽/м²', free:true },
+  { id:4, name:'Шамиль Хасанов', spec:'Плиточник',  cat:'tile',    emoji:'🟫', stars:'5.0', jobs:'41',  price:'от 700₽/м²', free:true },
+  { id:5, name:'Мурад Абдуллаев',spec:'Сварщик',    cat:'weld',    emoji:'🔩', stars:'4.6', jobs:'39',  price:'от 800₽/час', free:false },
+  { id:6, name:'Саид Алиев',     spec:'Мастер ремонта', cat:'repair', emoji:'🔨', stars:'4.9', jobs:'102', price:'Договорная', free:true },
+  { id:7, name:'Нариман Шахов',  spec:'Установка дверей/окон', cat:'door', emoji:'🚪', stars:'4.7', jobs:'66', price:'от 1000₽', free:true },
+  { id:8, name:'Айша Магомедова', spec:'Клининг',   cat:'clean',   emoji:'🧹', stars:'4.8', jobs:'75',  price:'от 300₽/час', free:false },
+];
+
+function masterHTML(m) {
+  return `
+  <div class="master-card" onclick="openMaster(${m.id})">
+    <div class="master-avatar">${m.emoji}<div class="master-badge">PRO</div></div>
+    <div class="master-info">
+      <div class="master-name">${m.name}</div>
+      <div class="master-spec">${m.spec}</div>
+      <div class="master-meta">
+        <div class="meta-tag stars">⭐ ${m.stars}</div>
+        <div class="meta-tag">💼 ${m.jobs} работ</div>
+        ${m.free ? '<div class="meta-tag free">🟢 Свободен</div>' : '<div class="meta-tag" style="color:#ff7a7a">🔴 Занят</div>'}
+      </div>
+    </div>
+    <div class="master-price">
+      <div class="price-val">${m.price}</div>
+      <button class="call-btn" onclick="event.stopPropagation(); callMaster('${m.name}')">📞 Позвонить</button>
+    </div>
+  </div>`;
+}
+
+function renderMasters(list, container) {
+  document.getElementById(container).innerHTML = list.map(masterHTML).join('');
+}
+
+renderMasters(masters.slice(0,4), 'mastersList');
+renderMasters(masters, 'allMastersList');
+
+let currentCat = 'all';
+function filterMasters(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('#mastCats .cat-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const filtered = cat === 'all' ? masters.slice(0,4) : masters.filter(m => m.cat === cat);
+  renderMasters(filtered, 'mastersList');
+}
+
+function handleSearch(val) {
+  if (!val.trim()) { renderMasters(masters.slice(0,4), 'mastersList'); return; }
+  const q = val.toLowerCase();
+  renderMasters(masters.filter(m => m.name.toLowerCase().includes(q) || m.spec.toLowerCase().includes(q)), 'mastersList');
+}
+
+function doSearch() {
+  const val = document.getElementById('searchInput').value;
+  handleSearch(val);
+}
+
+function openMaster(id) {
+  const m = masters.find(x => x.id === id);
+  showToast(`${m.emoji} ${m.name} — ${m.spec}`);
+}
+
+function callMaster(name) {
+  showToast(`📞 Звоним мастеру ${name}...`);
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('tab-' + id);
+  if (tab) tab.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function submitOrder() {
+  showToast('✅ Заявка отправлена! Мастер свяжется с вами');
+  setTimeout(() => showPage('myorders'), 1000);
+}
+
+function registerMaster() {
+  showToast('🎉 Заявка отправлена! Мы свяжемся с вами');
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Telegram WebApp integration
+if (window.Telegram && window.Telegram.WebApp) {
+  Telegram.WebApp.ready();
+  Telegram.WebApp.expand();
+}
+</script>
+</body>
+</html>
